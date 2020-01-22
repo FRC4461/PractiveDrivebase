@@ -16,15 +16,13 @@ import frc.robot.Constants;
 
 public class Chassis extends SubsystemBase {
 
-    private final Constants constants = new Constants();
+    private final TalonSRX talon1 = new TalonSRX(Constants.talon1);
+    private final TalonSRX talon2 = new TalonSRX(Constants.talon2);
+    private final TalonSRX talon3 = new TalonSRX(Constants.talon3);
+    private final TalonSRX talon4 = new TalonSRX(Constants.talon4);
 
-    private final TalonSRX talon1 = new TalonSRX(constants.talon1);
-    private final TalonSRX talon2 = new TalonSRX(constants.talon2);
-    private final TalonSRX talon3 = new TalonSRX(constants.talon3);
-    private final TalonSRX talon4 = new TalonSRX(constants.talon4);
-
-    public final Joystick leftJoystick = new Joystick(constants.leftJoystick);
-    public final Joystick rightJoystick = new Joystick(constants.righJoystick);
+    public final Joystick leftJoystick = new Joystick(Constants.leftJoystick);
+    public final Joystick rightJoystick = new Joystick(Constants.righJoystick);
 
     public void drive(double leftSpeed, double rightSpeed){
         talon1.set(ControlMode.PercentOutput, leftSpeed);
