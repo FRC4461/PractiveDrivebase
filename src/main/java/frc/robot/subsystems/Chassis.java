@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -31,4 +32,9 @@ public class Chassis extends SubsystemBase {
         talon4.set(ControlMode.PercentOutput, rightSpeed);
     }
   
+    @Override
+    public void setDefaultCommand(Command Drive) {
+        // TODO Auto-generated method stub
+        super.setDefaultCommand(Drive);
+    }
 }
