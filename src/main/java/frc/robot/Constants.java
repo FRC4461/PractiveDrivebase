@@ -18,10 +18,12 @@ package frc.robot;
 
 public final class Constants {
 
-    public static final int talon1 = 0;
-    public static final int talon2 = 1;
-    public static final int talon3 = 2;
-    public static final int talon4 = 3;
+    public static final class DriveBase{
+        public static final int talon1 = 0;
+        public static final int talon2 = 1;
+        public static final int talon3 = 2;
+        public static final int talon4 = 3;
+    }
 
     public static final int leftJoystick = 0;
     public static final int rightJoystick = 1;
