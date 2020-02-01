@@ -12,13 +12,19 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class Chassis extends SubsystemBase {
+    private DutyCycleEncoder rightEncoder = new DutyCycleEncoder(0);
 
     private final TalonSRX talon1 = new TalonSRX(Constants.DriveBase.talon1);
     private final TalonSRX talon2 = new TalonSRX(Constants.DriveBase.talon2);
     private final TalonSRX talon3 = new TalonSRX(Constants.DriveBase.talon3);
     private final TalonSRX talon4 = new TalonSRX(Constants.DriveBase.talon4);
+
+    public void readEncoder() {
+        System.out.println(rightEncoder.get());
+    }
 
 
     public void drive(double leftSpeed, double rightSpeed){

@@ -19,10 +19,12 @@ import frc.robot.commands.Drive;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
+import frc.robot.commands.ReadEncoder;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Chassis m_chassis = new Chassis();
   private final Drive m_driveCommand = new Drive(m_chassis);
+  private final ReadEncoder m_encoderReadCommand = new ReadEncoder(m_chassis); 
 
   
   public final static Joystick leftJoystick = new Joystick(Constants.leftJoystick);
@@ -34,7 +36,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_chassis.setDefaultCommand(m_driveCommand);
+    // m_chassis.setDefaultCommand(m_driveCommand);
+    m_chassis.setDefaultCommand(m_encoderReadCommand);
   }
 
   /**
