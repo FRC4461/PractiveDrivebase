@@ -22,8 +22,30 @@ public class Chassis extends SubsystemBase {
     private final TalonSRX talon3 = new TalonSRX(Constants.DriveBase.talon3);
     private final TalonSRX talon4 = new TalonSRX(Constants.DriveBase.talon4);
 
+    public void initEncoder() {
+        rightEncoder.setDistancePerRotation(Constants.DISTANCE_PER_REVOLUTION);
+    }
+
+    public void zeroEncoder() {
+        rightEncoderOrigin = rightEncoder.getDistance();
+    }
+
+    public void encoderDriveForward(double distance) {
+        if (rightEncoder.getDistance() - rightEncoderOrigin < distance) {
+            talon1.set(ControlMode.PercentOutput, -0.4);
+            talon2.set(ControlMode.PercentOutput, -0.4);
+            talon3.set(ControlMode.PercentOutput, 0.4);
+            talon4.set(ControlMode.PercentOutput, 0.4);
+        } else {
+            talon1.set(ControlMode.PercentOutput, 0);
+            talon2.set(ControlMode.PercentOutput, 0);
+            talon3.set(ControlMode.PercentOutput, 0);
+            talon4.set(ControlMode.PercentOutput, 0);
+        }
+    }
+
     public void readEncoder() {
-        System.out.println(rightEncoder.get());
+        System.out.println(rightEncoder.getDistance());
     }
 
 
@@ -32,5 +54,57 @@ public class Chassis extends SubsystemBase {
         talon2.set(ControlMode.PercentOutput, -leftSpeed);
         talon3.set(ControlMode.PercentOutput, rightSpeed);
         talon4.set(ControlMode.PercentOutput, rightSpeed);
+    }
+
+    public void initializeGyro(){
+        gyro.calibrate();
+
+        try {
+            TimeUnit.SECONDS.sleep(4);
+        } catch (Exception e) {
+
+        }
+        
+        gyro.reset();
+    }
+
+    public void zeroGyro(){
+
+        gyro.reset();
+
+    }
+
+    // function for turning
+    
+    public boolean turn(double rotationSpeed, double rotationDegrees){
+        boolean isDone = false;
+        double currentDegrees = gyro.getAngle();
+        System.out.println(gyro.getAngle());
+        if (Math.abs(currentDegrees) < rotationDegrees * (1 - angleTolerance)){
+            talon1.set(ControlMode.PercentOutput, -rotationSpeed);
+            talon2.set(ControlMode.PercentOutput, -rotationSpeed);
+            talon3.set(ControlMode.PercentOutput, -rotationSpeed);
+            talon4.set(ControlMode.PercentOutput, -rotationSpeed);
+
+            for (int i = 0; i < reductions; i++) {
+                if (Math.abs(currentDegrees) > speedReduction * rotationDegrees + (1 - speedReduction) / reductionIncrement * rotationDegrees * i) {
+                    talon1.set(ControlMode.PercentOutput, -rotationSpeed * speedReduction * (reductionIncrement-i)/reductionIncrement);
+                    talon2.set(ControlMode.PercentOutput, -rotationSpeed * speedReduction * (reductionIncrement-i)/reductionIncrement);
+                    talon3.set(ControlMode.PercentOutput, -rotationSpeed * speedReduction * (reductionIncrement-i)/reductionIncrement);
+                    talon4.set(ControlMode.PercentOutput, -rotationSpeed * speedReduction * (reductionIncrement-i)/reductionIncrement);
+                }
+            }
+        }
+        else {
+
+            talon1.set(ControlMode.PercentOutput, 0);
+            talon2.set(ControlMode.PercentOutput, 0);
+            talon3.set(ControlMode.PercentOutput, 0);
+            talon4.set(ControlMode.PercentOutput, 0);
+
+            isDone = true;
+            return isDone;           
+        }
+        return isDone;
     }
 }
