@@ -8,33 +8,35 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Chassis;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.Drive;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
+import frc.robot.commands.ReadEncoder;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Chassis m_chassis = new Chassis();
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final Drive m_driveCommand = new Drive(m_chassis);
+  //private final Drive m_driveCommand = new Drive(m_chassis);
+  private final ReadEncoder m_encoderReadCommand = new ReadEncoder(m_chassis); 
 
-
+  
+  public final static Joystick leftJoystick = new Joystick(Constants.leftJoystick);
+  public final static Joystick rightJoystick = new Joystick(Constants.rightJoystick);
+  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_chassis.setDefaultCommand(m_driveCommand);
+    // m_chassis.setDefaultCommand(m_driveCommand);
+    m_chassis.setDefaultCommand(m_encoderReadCommand);
   }
 
   /**
@@ -54,6 +56,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }

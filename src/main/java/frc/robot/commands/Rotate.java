@@ -7,24 +7,27 @@
 
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class Drive extends CommandBase {
+public class Rotate extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Chassis m_Chassis;
+  private final double m_rotation;
 
+  boolean isDone = false;
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new EncoderDrive.
    *
    * @param subsystem The subsystem used by this command.
+   * @param rotation Distance in inches to drive.
    */
-  public Drive(Chassis subsystem) {
+  public Rotate(Chassis subsystem, double rotation) {
     m_Chassis = subsystem;
+    m_rotation = rotation;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Chassis);
   }
@@ -32,16 +35,23 @@ public class Drive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  }
+      m_Chassis.zeroGyro();
+    }
+
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Chassis.drive(RobotContainer.leftJoystick.getY(), RobotContainer.rightJoystick.getY());
-  }
+      isDone = m_Chassis.turn(.35, m_rotation);
+    }
 
+  @Override
+  public boolean isFinished() {
+      return isDone;
+  }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
   }
 }
+
