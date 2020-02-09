@@ -8,11 +8,19 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+
+import java.util.concurrent.TimeUnit;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
+
+
 
 public class Chassis extends SubsystemBase {
     private DutyCycleEncoder rightEncoder = new DutyCycleEncoder(0);
@@ -22,12 +30,26 @@ public class Chassis extends SubsystemBase {
     private final TalonSRX talon3 = new TalonSRX(Constants.DriveBase.talon3);
     private final TalonSRX talon4 = new TalonSRX(Constants.DriveBase.talon4);
 
+    private Gyro gyro = new ADXRS450_Gyro();
+    
+    private double angleTolerance = 3;
+    private double speedReduction = 1/5; 
+    private double reductionIncrement = 5;
+    private double reductions = 4;
+
+
+    private double rightEncoderOrigin = 0;
+
     public void initEncoder() {
         rightEncoder.setDistancePerRotation(Constants.DISTANCE_PER_REVOLUTION);
     }
 
+
+
     public void zeroEncoder() {
-        rightEncoderOrigin = rightEncoder.getDistance();
+    
+        
+         rightEncoderOrigin = rightEncoder.getDistance();
     }
 
     public void encoderDriveForward(double distance) {
@@ -55,8 +77,11 @@ public class Chassis extends SubsystemBase {
         talon3.set(ControlMode.PercentOutput, rightSpeed);
         talon4.set(ControlMode.PercentOutput, rightSpeed);
     }
+    
+    
 
     public void initializeGyro(){
+        
         gyro.calibrate();
 
         try {
@@ -76,6 +101,8 @@ public class Chassis extends SubsystemBase {
 
     // function for turning
     
+
+
     public boolean turn(double rotationSpeed, double rotationDegrees){
         boolean isDone = false;
         double currentDegrees = gyro.getAngle();
