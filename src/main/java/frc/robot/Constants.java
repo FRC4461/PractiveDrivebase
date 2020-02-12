@@ -27,6 +27,6 @@ public final class Constants {
 
     public static final int leftJoystick = 0;
     public static final int rightJoystick = 1;
-	public static final double DISTANCE_PER_REVOLUTION = 0;
+	public static final double DISTANCE_PER_REVOLUTION = 6 * Math.PI;
 
 }

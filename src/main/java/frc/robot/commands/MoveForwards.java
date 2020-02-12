@@ -17,16 +17,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class MoveForwards extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Chassis m_Chassis;
+  private final double m_givenDistance;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public MoveForwards(Chassis subsystem) {
+  public MoveForwards(Chassis subsystem, double givenDistance) {
     m_Chassis = subsystem;
+    m_givenDistance = givenDistance;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Chassis);
+
   }
 
   // Called when the command is initially scheduled.
@@ -37,7 +41,7 @@ public class MoveForwards extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Chassis.drive(RobotContainer.leftJoystick.getY(), RobotContainer.rightJoystick.getY());
+    m_Chassis.encoderDriveForward(m_givenDistance);
   }
 
   // Called once the command ends or is interrupted.
