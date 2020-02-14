@@ -18,6 +18,13 @@ package frc.robot;
 
 public final class Constants {
 
+
+
+    public static final int leftJoystick = 0;
+    public static final int rightJoystick = 1;
+    public static final double DISTANCE_PER_REVOLUTION = 6 * Math.PI;
+
+
     public static final class DriveBase{
         public static final int talon1 = 0;
         public static final int talon2 = 1;
@@ -25,8 +32,13 @@ public final class Constants {
         public static final int talon4 = 3;
     }
 
-    public static final int leftJoystick = 0;
-    public static final int rightJoystick = 1;
-	public static final double DISTANCE_PER_REVOLUTION = 6 * Math.PI;
+    
+    public static final class Shooter{
+        public static final int talon5 = 4;
+        public static final int talon6 = 5;
+        public static final int talon7 = 6;
+        
+        }
+    
 
 }
