@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.subsystems.Flywheel;
 import frc.robot.commands.Shootflywheel;
+import frc.robot.commands.Stopflywheel;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -24,10 +25,12 @@ import frc.robot.commands.Shootflywheel;
  */
 import frc.robot.commands.ReadEncoder;
 import frc.robot.commands.Shootflywheel;
+
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Chassis m_chassis = new Chassis();
-  private final Flywheel m_flywheel = new Flywheel();
+  private final Flywheel m_normalFlywheel = new Flywheel(.85, 0.0);
+  private final Flywheel m_turboFlywheel = new Flywheel(1,0.0);
   //private final Drive m_driveCommand = new Drive(m_chassis);
   private final ReadEncoder m_encoderReadCommand = new ReadEncoder(m_chassis); 
 
@@ -35,6 +38,7 @@ public class RobotContainer {
   public final static Joystick leftJoystick = new Joystick(Constants.leftJoystick);
   public final static Joystick rightJoystick = new Joystick(Constants.rightJoystick);
   public final static Button button2 = new JoystickButton(leftJoystick,2);
+  public final static Button button3 = new JoystickButton(leftJoystick,3);
 
   
   /**
@@ -54,7 +58,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    button2.whenPressed(new Shootflywheel(m_flywheel));
+    button2.whenPressed(new Shootflywheel(m_normalFlywheel));
+    button2.whenReleased(new Stopflywheel(m_normalFlywheel));
+
+    button3.whenPressed(new Shootflywheel(m_turboFlywheel));
+    button3.whenReleased(new Stopflywheel(m_turboFlywheel));
   }
 
 

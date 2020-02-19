@@ -23,13 +23,23 @@ public class Flywheel extends SubsystemBase {
 
   private static final TalonSRX talon5 = new TalonSRX(Constants.Shooter.talon5);
   private double frontEncoderOrigin = 1;
+  private double _runMotor = 0;
+  private double _stopMotor = 0;
+
+
+  //class constructor, this code will run when other code does 'new Flywheel' to instantiate a new Flywheel class
+  public Flywheel(double runMotor, double stopMotor){
+    _runMotor = runMotor; 
+    _stopMotor = stopMotor;
+  }
 
   public void ShootFlyWheel () {
-    talon5.set(ControlMode.PercentOutput, 0.7); 
+    System.out.println(String.format("Motor speed: %f", _runMotor));
+    talon5.set(ControlMode.PercentOutput, _runMotor); 
   } 
 
-  public void stopFlyWheel(){
-    System.out.println("STOP THE FREAKING FLYWHEEL");
-    talon5.set(ControlMode.PercentOutput,0);
+  public void StopFlyWheel(){
+    System.out.println(String.format("STOP THE FREAKING FLYWHEEL; Motor speed: %f", _stopMotor));
+    talon5.set(ControlMode.PercentOutput, _stopMotor);
   }
 }
